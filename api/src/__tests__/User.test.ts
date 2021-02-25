@@ -4,16 +4,23 @@ import { app } from "../app"
 import createConnection from '../database'
 
 describe("Users", () => {
-  beforeAll(async() => {
+  beforeAll(async () => {
     const connection = await createConnection()
     await connection.runMigrations()
   })
 
-  it("Showld be able blablabla", async() => {
-      const response = await request(app).post("/users").send({
+  it("Showld be able blablabla", async () => {
+    const response = await request(app).post("/users").send({
       email: "user@email.com",
       name: "User Example",
     })
     expect(response.status).toBe(201)
-  }) 
+  })
+  it("criar usuario com email existente", async () => {
+    const response = await request(app).post("/users").send({
+      email: "user@email.com",
+      name: "User Example",
+    })
+    expect(response.status).toBe(400)
+  })
 })
